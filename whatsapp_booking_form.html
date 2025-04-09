@@ -1,0 +1,110 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+  <title>WhatsApp Booking</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #000;
+      color: #fff;
+      padding: 20px;
+    }
+
+    h2 {
+      color: red;
+      text-align: center;
+    }
+
+    .form-box {
+      max-width: 400px;
+      margin: auto;
+      padding: 20px;
+      background: #111;
+      border-radius: 10px;
+      box-shadow: 0 0 10px red;
+    }
+
+    input, button {
+      width: 100%;
+      padding: 12px;
+      margin: 10px 0;
+      border: none;
+      border-radius: 6px;
+      font-size: 16px;
+    }
+
+    input {
+      background-color: #1c1c1c;
+      color: #fff;
+    }
+
+    button {
+      background-color: red;
+      color: white;
+      font-weight: bold;
+      cursor: pointer;
+      transition: 0.3s ease;
+    }
+
+    button:hover {
+      background-color: #cc0000;
+    }
+
+    #appointment {
+      background-color: #222;
+      font-weight: bold;
+    }
+  </style>
+  <script>
+    function generateAppointmentNumber() {
+      const random = Math.floor(100000 + Math.random() * 900000);
+      const today = new Date();
+      const formattedDate = today.getFullYear().toString().slice(-2) +
+                            (today.getMonth() + 1).toString().padStart(2, '0') +
+                            today.getDate().toString().padStart(2, '0');
+      return "APT-" + formattedDate + "-" + random;
+    }
+
+    function setAppointmentNumber() {
+      document.getElementById("appointment").value = generateAppointmentNumber();
+    }
+
+    function sendToWhatsApp() {
+      const name = document.getElementById("name").value;
+      const date = document.getElementById("date").value;
+      const service = document.getElementById("service").value;
+      const appointment = document.getElementById("appointment").value;
+
+      if (!name || !date || !service) {
+        alert("Please fill in all the details.");
+        return;
+      }
+
+      const message = "*Booking Details*%0A" +
+                      "Name: " + name + "%0A" +
+                      "Date: " + date + "%0A" +
+                      "Service: " + service + "%0A" +
+                      "Appointment No: " + appointment;
+
+      const phone = "27817212196";
+      const url = "https://wa.me/" + phone + "?text=" + message;
+
+      window.open(url, '_blank');
+    }
+
+    window.onload = setAppointmentNumber;
+  </script>
+</head>
+<body>
+  <div class="form-box">
+    <h2>Book Your Appointment</h2>
+    <input type="text" id="name" placeholder="Your Name">
+    <input type="text" id="date" placeholder="Booking Date (e.g., 2025-04-10)">
+    <input type="text" id="service" placeholder="Service Required">
+    <input type="text" id="appointment" readonly>
+    <button onclick="sendToWhatsApp()">Send to WhatsApp</button>
+  </div>
+</body>
+</html>
